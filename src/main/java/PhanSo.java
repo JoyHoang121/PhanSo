@@ -91,8 +91,7 @@ public class PhanSo {
     }
 
     public void quyDongHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-        int ps1;
-        int ps2;
+
         if (mau_1 != mau_2) {
             this.tuso = tu_1 * mau_2;
             this.mauso = mau_1 * mau_2;
@@ -116,11 +115,7 @@ public class PhanSo {
     }
 
     public void soSanhHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2){
-        int ts1;
-        int ts2;
-        int ms1;
-        int ms2;
-
+        int ts1, ts2, ms1, ms2;
         if (mau_1 != mau_2) {
             ts1 = tu_1 * mau_2;
             ms1 = mau_1 * mau_2;

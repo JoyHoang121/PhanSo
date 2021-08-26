@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import entities.PhanSo;
 
 public class run {
     public static void main(String[] args) {

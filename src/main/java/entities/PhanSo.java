@@ -1,136 +1,160 @@
 package entities;
 
+import java.util.Scanner;
+
 public class PhanSo {
 
-    int tuso;
-    int mauso;
+    private int tuso;
+    private int mauso;
 
     public void print() {
-        System.out.format("%d/%d ", this.tuso, this.mauso);
+        System.out.format("%d/%d \n", this.tuso, this.mauso);
     }
 
-    public void nhapPhanSo(int tu, int mau) {
-        this.tuso = tu;
-        this.mauso = mau;
+    public int getTuso() {
+        return this.tuso;
     }
 
+    public int getMauso() {
+        return this.mauso;
+    }
 
-    public int uocChungLonNhat(int tu, int mau) {
-        this.tuso = tu;
-        this.mauso = mau;
-        int ucln = 0;
-        if (this.tuso > this.mauso) {
-            for (int i = 1; i <= this.mauso; i++) {
-                if (this.tuso % i == 0 && this.mauso % i == 0 && ucln < i) {
-                    ucln = i;
-                }
-            }
-        } else if (this.tuso < this.mauso) {
-            for (int i = 1; i <= this.tuso; i++) {
-                if (this.tuso % i == 0 && this.mauso % i == 0 && ucln < i) {
-                    ucln = i;
-                }
-            }
+    public String getDisplayString() {
+        return String.format("%d/%d", this.tuso, this.mauso);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d/%d", this.tuso, this.mauso);
+    }
+
+    public void input() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(" Tử số: ");
+        this.tuso = sc.nextInt();
+        System.out.println("Mẫu số: ");
+        this.mauso = sc.nextInt();
+    }
+
+    private static int uocChungLonNhat(int a, int b) {
+        if (a == b)
+            return a;
+
+        if (a > b) {
+            return uocChungLonNhat(a - b, b);
         }
-        return ucln;
+
+        return uocChungLonNhat(a, b - a);
     }
 
-    public void rutGonPhanSo(int tu, int mau) {
-        this.tuso = tu;
-        this.mauso = mau;
-        if (this.tuso % this.mauso == 0) {
-            System.out.println("phan so rut gon " + this.tuso / this.mauso);
+    public void rutGonPhanSo() {
+        int ucln = uocChungLonNhat(Math.abs(this.tuso), Math.abs(this.mauso));
+        this.tuso /= ucln;
+        this.mauso /= ucln;
+
+    }
+
+    public void plus(PhanSo x) {
+        if (this.mauso != x.mauso) {
+            this.tuso = this.tuso * x.mauso + x.tuso * this.mauso;
+            this.mauso = this.mauso * x.mauso;
         } else {
-            int ucln = uocChungLonNhat(this.tuso, this.mauso);
-            this.tuso = this.tuso / ucln;
-            this.mauso = this.mauso / ucln;
-            System.out.format(" phan so sau khi rut gon %d/%d ", this.tuso, this.mauso);
-            System.out.println();
+            this.tuso = this.tuso + x.tuso;
         }
+        this.rutGonPhanSo();
     }
 
-    public void sumHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-        if (mau_1 != mau_2) {
-            this.tuso = ((tu_1 * mau_2) + (tu_2 * mau_1));
-            this.mauso = (mau_1 * mau_2);
+    public static PhanSo sumHaiPhanSo(PhanSo ps1, PhanSo ps2) {
+        PhanSo ret = new PhanSo();
+        if (ps1.mauso != ps2.mauso) {
+            ret.tuso = ((ps1.tuso * ps2.mauso) + (ps1.mauso * ps2.tuso));
+            ret.mauso = (ps1.mauso * ps2.mauso);
         } else {
-            this.tuso = ((tu_1 * mau_2) + (tu_2 * mau_1));
-            this.mauso = mau_1;
+            ret.tuso = ((ps1.tuso * ps2.mauso) + (ps1.mauso * ps2.tuso));
+            ret.mauso = ps2.mauso;
         }
-        print();
+        ret.rutGonPhanSo();
+
+        return ret;
     }
 
-    public void hieuHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-        if (mau_1 != mau_2) {
-            this.tuso = ((tu_1 * mau_2) - (tu_2 * mau_1));
-            this.mauso = (mau_1 * mau_2);
+    public void hieuHaiPhanSo(PhanSo x) {
+        if (this.mauso != x.mauso) {
+            this.tuso = ((this.tuso * x.mauso) - (this.mauso * x.tuso));
+            this.mauso = (this.mauso * x.mauso);
         } else {
-            this.tuso = ((tu_1 * mau_2) - (tu_2 * mau_1));
-            this.mauso = mau_1;
+            this.tuso = ((this.tuso * x.mauso) - (this.mauso * x.tuso));
+
         }
-        print();
+        this.rutGonPhanSo();
+
     }
 
-    public void tichHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-        this.tuso = (tu_1 * tu_2);
-        this.mauso = (mau_1 * mau_2);
-        rutGonPhanSo(this.tuso, this.mauso);
+    public void tichHaiPhanSo(PhanSo x) {
+        this.tuso = (this.tuso * x.tuso);
+        this.mauso = (this.mauso * x.mauso);
+        rutGonPhanSo();
     }
 
-    public void chiaHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-        this.tuso = (tu_1 * mau_2);
-        this.mauso = (mau_1 * tu_2);
-        rutGonPhanSo(this.tuso, this.mauso);
+    public void chiaHaiPhanSo( PhanSo x) {
+        this.tuso = this.tuso * x.mauso;
+        this.mauso = x.tuso * this.mauso;
     }
 
-    public boolean isPhanSoToiGian(int tu, int mau) {
-        this.tuso = tu;
-        this.mauso = mau;
-        if (uocChungLonNhat(this.tuso, this.mauso) == 1) {
+    public boolean isPhanSoToiGian() {
+        if (uocChungLonNhat(Math.abs(this.tuso), Math.abs(this.mauso)) == 1) {
+            return false;
+        }
+        return true;
+    }
+
+    //quy đồng ps1 so với ps2
+    public void quyDongHaiPhanSo(PhanSo x) {
+        if (this.mauso != x.mauso) {
+            this.tuso = this.tuso * x.mauso;
+            this.mauso = this.mauso * x.mauso;
+            rutGonPhanSo();
+
+        }
+
+    }
+
+    public boolean isPhanSoAm() {
+        if (this.tuso == 0)
+            return false;
+        if (this.tuso < 0 && this.mauso < 0) {
+            return false;
+        }
+        if (this.tuso < 0 || this.mauso < 0)
             return true;
-        }
         return false;
     }
 
-    public void quyDongHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2) {
-
-        if (mau_1 != mau_2) {
-            this.tuso = tu_1 * mau_2;
-            this.mauso = mau_1 * mau_2;
-            rutGonPhanSo(this.tuso, this.mauso);
-            this.tuso = tu_2 * mau_1;
-            this.mauso = mau_2 * mau_1;
-            rutGonPhanSo(this.tuso, this.mauso);
-
+    public int soSanhHaiPhanSo(PhanSo x) {
+        if (this.mauso == x.mauso) {
+            if (this.tuso > x.tuso) {
+                return 1; // this > x
+            } else if (this.tuso < x.tuso)
+                return -1; // this < x
+        } else if (this.mauso != x.mauso) {
+            long ts1 = this.tuso * x.mauso;
+            long ts2 = this.mauso * x.tuso;
+            long ms1 = this.mauso * x.mauso;
+            long ms2 = x.mauso * this.mauso;
+            if (ms1 == ms2 && ts1 > ts2) {
+                return 1; // this > x
+            } else
+                return -1; // this < x
         }
-
+        return 0; // this = x
     }
 
-    public boolean kiemTraPhanSoAm(int tu, int mau){
-        boolean isAm = true;
-        this.tuso = tu;
-        this.mauso = mau;
-        if(this.tuso < 0 || this.mauso <0){
-            return isAm;
-        }
-        return false;
+    public static PhanSo parseFromString(String str) {
+        String[] parts = str.split("/");
+
+        PhanSo ps = new PhanSo();
+        ps.tuso = Integer.parseInt(parts[0]);
+        ps.mauso = Integer.parseInt(parts[1]);
+        return ps;
     }
-
-    public void soSanhHaiPhanSo(int tu_1, int mau_1, int tu_2, int mau_2){
-        int ts1, ts2, ms1, ms2;
-        if (mau_1 != mau_2) {
-            ts1 = tu_1 * mau_2;
-            ms1 = mau_1 * mau_2;
-            ts2 = tu_2 * mau_1;
-            ms2 = mau_2 * mau_1;
-            if(ms1 == ms2 && ts1 >ts2){
-                System.out.println("phân số 1 lớn hơn phân số 2");
-            }
-            else
-                System.out.println("phân số 2 lớn hơn phân số 1");
-
-        }
-    }
-
-
 }

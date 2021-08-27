@@ -47,16 +47,16 @@ public class run {
             System.out.format("%s = %s\n", ps1, ps2);
 
 
-        // cộng phân số cách 1 -> thay đổi giá trị của ps1 sau khi cộng ps2 vào
-//        ps1.plus(ps2);
-//        System.out.println(ps1);
+        //  cộng phân số cách 1 -> thay đổi giá trị của ps1 sau khi cộng ps2 vào
+        ps1.plus(ps2);
+        System.out.println(ps1);
 
         // cộng phân số cách 2 -> tạo ra 1 phân số mới
-//        PhanSo psTotal = PhanSo.sumHaiPhanSo(ps1, ps2);
-//        System.out.println(psTotal);
-//
-//        ps1.quyDongHaiPhanSo(ps2);
-//        System.out.println(ps1);
+        PhanSo psTotal = PhanSo.sumHaiPhanSo(ps1, ps2);
+        System.out.println(psTotal);
+
+        ps1.quyDongHaiPhanSo(ps2);
+        System.out.println(ps1);
 
         ps1.chiaHaiPhanSo(ps2);
         System.out.println(ps1);
